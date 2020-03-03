@@ -2,6 +2,7 @@ package com.hbsis.logging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogRest {
     Logger logger = LoggerFactory.getLogger(LogRest.class);
 
+    @GetMapping("/log")
     public String log(){
         logger.info("este log é legal");
         return "Retorno";
