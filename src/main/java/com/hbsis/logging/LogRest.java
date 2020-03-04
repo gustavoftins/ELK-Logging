@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class LogRest {
-    Logger logger = LoggerFactory.getLogger(LogRest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogRest.class);
 
     @GetMapping("/log")
     public String log(){
-        logger.info("este log é legal");
+        LOGGER.info("este log é legal");
         return "Retorno";
     }
 }
