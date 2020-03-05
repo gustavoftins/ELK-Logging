@@ -16,7 +16,11 @@ public class LogRest {
     private static final Logger LOGGER = LoggerFactory.getLogger(LogRest.class);
 
     @Autowired
-    private LogService logservice;
+    private final LogService logService;
+
+    public LogRest(LogService logService) {
+        this.logService = logService;
+    }
 
     @GetMapping("/log")
     public String log(HttpServletRequest r){
@@ -26,7 +30,7 @@ public class LogRest {
 
     @GetMapping("/teste")
     public int teste() throws IOException, IllegalAccessException {
-        return this.logservice.getLog().size();
+        return this.logService.getLog().size();
     }
 
 }
