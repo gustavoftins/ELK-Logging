@@ -44,16 +44,8 @@ public class LogRest {
 
         try {
             ElasticSearchResponse responseDes = obm.readValue(response2, ElasticSearchResponse.class);
-            List<Log> logList = new ArrayList<>();
-            for (Log hit : responseDes.getHits()) {
-                try {
-                    logList.add(obm.readValue(hit.toString(), Log.class));
-                } catch (JsonProcessingException e) {
-                    continue;
-                }
-            }
 
-            System.out.println(logList.size());
+            System.out.println(responseDes.hits.size());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
