@@ -1,5 +1,7 @@
 package com.hbsis.logging;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -12,6 +14,8 @@ import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -29,14 +33,30 @@ public class LogRest {
         System.out.println("entrou");
 
         WebClient web = WebClient.create("http://localhost:9200");
-        WebClient.RequestBodySpec req = web.method(HttpMethod.GET).uri("/logapp/_search?q=tag:log");
+        WebClient.RequestBodySpec req = web.method(HttpMethod.GET).uri("/logapp/_search?q=logmessage:log");
 
         String response2 = req.exchange()
                 .block()
                 .bodyToMono(String.class)
                 .block();
 
-        System.out.println(response2);
+        ObjectMapper obm = new ObjectMapper();
+
+        try {
+            ElasticSearchResponse responseDes = obm.readValue(response2, ElasticSearchResponse.class);
+            List<Log> logList = new ArrayList<>();
+            for (Log hit : responseDes.getHits()) {
+                try {
+                    logList.add(obm.readValue(hit.toString(), Log.class));
+                } catch (JsonProcessingException e) {
+                    continue;
+                }
+            }
+
+            System.out.println(logList.size());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
 }
