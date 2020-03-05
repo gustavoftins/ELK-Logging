@@ -20,9 +20,13 @@ import java.util.List;
 public class LogService {
 
     @Autowired
-    private RestHighLevelClient client;
+    private final RestHighLevelClient client;
 
     private ObjectMapper objectMapper;
+
+    public LogService(RestHighLevelClient client) {
+        this.client = client;
+    }
 
     public List<Log> getLog() throws IOException, IllegalAccessException {
         SearchRequest searchRequest = new SearchRequest();
