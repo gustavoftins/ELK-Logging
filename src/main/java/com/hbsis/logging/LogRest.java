@@ -45,7 +45,7 @@ public class LogRest {
         Matcher matcher = pattern.matcher(response2);
 
         if(matcher.find()){
-            String hits = matcher.group(1);
+            String hits = matcher.group();
             try {
                 hits sources = obm.readValue(hits, hits.class);
                 System.out.println("achou: "+sources.hits.size());
