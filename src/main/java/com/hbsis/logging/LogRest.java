@@ -26,6 +26,8 @@ public class LogRest {
 
     @GetMapping("/teste")
     public void testeElastic(){
+        System.out.println("entrou");
+
         WebClient web = WebClient.create("http://localhost:9200");
         WebClient.RequestBodySpec req = web.method(HttpMethod.GET).uri("/logapp/_search?q=tag:log");
 
