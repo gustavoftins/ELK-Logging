@@ -46,6 +46,7 @@ public class LogRest {
 
         if(matcher.find()){
             String hits = matcher.group();
+            System.out.println(response2);
             System.out.println(hits);
             try {
                 hits sources = obm.readValue(hits, hits.class);
