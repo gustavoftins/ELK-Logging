@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api")
@@ -37,12 +40,20 @@ public class LogRest {
 
         ObjectMapper obm = new ObjectMapper();
 
-        try {
-            hits responseDes = obm.readValue(response2, hits.class);
+        Pattern pattern = Pattern.compile("[^\"hits\":]*$");
 
-            System.out.println(responseDes.hits.size());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        Matcher matcher = pattern.matcher(response2);
+
+        if(matcher.find()){
+            String hits = matcher.group(1);
+            try {
+                hits sources = obm.readValue(hits, hits.class);
+                System.out.println("achou: "+sources.hits.size());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }else{
+            System.out.println("deu ruim");
         }
     }
 

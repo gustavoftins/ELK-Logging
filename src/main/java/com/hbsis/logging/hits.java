@@ -6,5 +6,4 @@ public class hits {
 
     public List<_source> hits;
 
-
 }
