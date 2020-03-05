@@ -15,7 +15,6 @@ import java.io.IOException;
 public class LogRest {
     private static final Logger LOGGER = LoggerFactory.getLogger(LogRest.class);
 
-    @Autowired
     private final LogService logService;
 
     public LogRest(LogService logService) {

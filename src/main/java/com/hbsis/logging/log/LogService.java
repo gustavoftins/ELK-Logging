@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 public class LogService {
 
-    @Autowired
     private final RestHighLevelClient client;
 
     private ObjectMapper objectMapper;
