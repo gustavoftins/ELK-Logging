@@ -35,6 +35,8 @@ public abstract class SocketServer {
                     continue;
                 }
             }
+        }catch (Exception e){
+            LOGGER.error("Erro de socket {}", e);
         }
     }
 }
