@@ -10,16 +10,19 @@ import java.io.IOException;
 public class LoggingApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(LoggingApplication.class, args);
 		new Thread(() ->{
+			System.out.println("teste");
 			try {
+				System.out.println("teste");
 				SocketServer.streamFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		});
+		}).start();
 	}
 
 }
