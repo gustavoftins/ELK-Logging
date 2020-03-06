@@ -29,7 +29,8 @@ public class LogRest {
 
     @GetMapping("/teste/{tag}/{match}")
     public int teste(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
-        return this.logService.getLog(tag, match).size();
+        this.logService.getLog(tag, match);
+        return LogStack.stack.size();
     }
 
     @GetMapping("/count/{tag}/{match}")
