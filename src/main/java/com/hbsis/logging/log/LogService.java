@@ -32,8 +32,8 @@ public class LogService {
         this.client = client;
     }
 
-    public void getLog(String queryTag, String queryMatch) throws IOException {
-        SearchRequest searchRequest = new SearchRequest("logapp");//uses only "logapp" indice
+    public void getLog(String queryTag, String queryMatch, String[] indices) throws IOException {
+        SearchRequest searchRequest = new SearchRequest(indices);
         searchRequest.scroll(scroll);//setting timeout for 100 seconds
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(QueryBuilders.matchQuery(queryTag, queryMatch));//matches results using the specified tag and value
@@ -42,10 +42,10 @@ public class LogService {
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
         String scrollId = searchResponse.getScrollId();
-        SearchHit[] hits = searchResponse.getHits().getHits();;
+        SearchHit[] hits = searchResponse.getHits().getHits();
         getResult(hits);
 
-        do{
+        do {
             SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
             scrollRequest.scroll(scroll);
             searchResponse = client.scroll(scrollRequest, RequestOptions.DEFAULT);
@@ -53,7 +53,7 @@ public class LogService {
             hits = searchResponse.getHits().getHits();
             getResult(hits);
 
-        }while(hits != null && hits.length > 0);
+        } while (hits != null && hits.length > 0);
 
     }
 
@@ -68,8 +68,8 @@ public class LogService {
         }
     }
 
-    public Long count(String queryTag, String queryMatch) throws IOException {
-        CountRequest countRequest = new CountRequest("logapp");
+    public Long count(String queryTag, String queryMatch, String[] indices) throws IOException {
+        CountRequest countRequest = new CountRequest(indices);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.size(4000);
         searchSourceBuilder.query(QueryBuilders.matchQuery(queryTag, queryMatch));
