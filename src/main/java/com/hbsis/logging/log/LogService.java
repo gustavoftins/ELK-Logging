@@ -11,9 +11,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class LogService {
@@ -43,7 +41,8 @@ public class LogService {
         if (hits.length > 0) {
             System.out.println(hits.length);
             Arrays.stream(hits).forEach(hit -> {
-                System.out.println(hit.getSourceAsMap()+"\n\n\n");
+                Map<String, Object> map = hit.getSourceAsMap();
+                map.forEach((key, value) -> System.out.println("key:"+key+"  ---  valor:"+value));
             });
         }
         return logs;
