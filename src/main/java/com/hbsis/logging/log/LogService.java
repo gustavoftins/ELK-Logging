@@ -43,7 +43,7 @@ public class LogService {
         if (hits.length > 0) {
             System.out.println(hits.length);
             Arrays.stream(hits).forEach(hit -> {
-                System.out.println(hit.getSourceAsString());
+                System.out.println(hit.getSourceAsMap()+"\n\n\n");
             });
         }
         return logs;
