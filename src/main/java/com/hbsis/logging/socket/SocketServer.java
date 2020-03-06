@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.EmptyStackException;
+import java.util.List;
 
 @Service
 public abstract class SocketServer {
@@ -24,8 +25,12 @@ public abstract class SocketServer {
             Socket sock = new Socket("127.0.0.1", SOCKET_PORT);
             try {
                 OutputStream os = sock.getOutputStream();
-                String s;
-                byte[] logBytes = LogStack.stack.pop().getBytes();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < 10; i++) {
+                    sb.append(LogStack.stack.pop()+"\n");
+                }
+
+                byte[] logBytes = sb.toString().getBytes();
                 os.write(logBytes, 0, logBytes.length);
                 os.flush();
             } catch (EmptyStackException e) {
