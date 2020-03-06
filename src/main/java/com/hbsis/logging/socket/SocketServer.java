@@ -13,7 +13,7 @@ import java.util.EmptyStackException;
 @Service
 public abstract class SocketServer {
 
-    public static final int SOCKET_PORT = 9768;
+    public static final int SOCKET_PORT = 5501;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SocketServer.class);
 
