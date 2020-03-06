@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ElasticsearchConfiguration {
 
-    @Value("${elasticsearch.host:localhost:9200}")
+    @Value("${elasticsearch.host}")
     private String elasticsearchHost;
 
     @Bean(destroyMethod = "close")
