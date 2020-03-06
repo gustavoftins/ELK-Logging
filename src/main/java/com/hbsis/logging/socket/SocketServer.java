@@ -19,11 +19,12 @@ public abstract class SocketServer {
 
     public static void streamFile() throws IOException, InterruptedException {
         int ioExceptionErrorCount = 0;
-        Socket sock = new Socket("127.0.0.1", SOCKET_PORT);
         LOGGER.info("Iniciando socket.");
         while (true) {
+            Socket sock = new Socket("127.0.0.1", SOCKET_PORT);
             try {
                 OutputStream os = sock.getOutputStream();
+                String s;
                 byte[] logBytes = LogStack.stack.pop().getBytes();
                 os.write(logBytes, 0, logBytes.length);
                 os.flush();
@@ -36,6 +37,7 @@ public abstract class SocketServer {
                 ioExceptionErrorCount++;
                 continue;
             }
+            sock.close();
         }
     }
 }
