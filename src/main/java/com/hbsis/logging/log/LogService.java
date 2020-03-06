@@ -24,10 +24,10 @@ public class LogService {
         this.client = client;
     }
 
-    public List<Log> getLog() throws IOException {
+    public List<Log> getLog(String queryTag, String queryMatch) throws IOException {
         SearchRequest searchRequest = new SearchRequest("logapp");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.matchQuery("logmessage", "log"));
+        searchSourceBuilder.query(QueryBuilders.matchQuery(queryTag, queryMatch));
         searchRequest.source(searchSourceBuilder);
 
         return getResult(client.search(searchRequest, RequestOptions.DEFAULT));

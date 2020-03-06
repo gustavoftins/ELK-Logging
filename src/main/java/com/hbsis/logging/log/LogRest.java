@@ -3,6 +3,7 @@ package com.hbsis.logging.log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,9 +27,9 @@ public class LogRest {
         return "Retorno";
     }
 
-    @GetMapping("/teste")
-    public int teste() throws IOException, IllegalAccessException {
-        return this.logService.getLog().size();
+    @GetMapping("/teste/{tag}{match}")
+    public int teste(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
+        return this.logService.getLog(tag, match).size();
     }
 
 }
