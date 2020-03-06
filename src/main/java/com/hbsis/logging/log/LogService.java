@@ -27,6 +27,7 @@ public class LogService {
     public List<Log> getLog(String queryTag, String queryMatch) throws IOException {
         SearchRequest searchRequest = new SearchRequest("logapp");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.size(Integer.MAX_VALUE);
         searchSourceBuilder.query(QueryBuilders.matchQuery(queryTag, queryMatch));
         searchRequest.source(searchSourceBuilder);
 
