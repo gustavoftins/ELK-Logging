@@ -5,6 +5,8 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.CountRequest;
+import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -27,7 +29,7 @@ public class LogService {
     public List<Log> getLog(String queryTag, String queryMatch) throws IOException {
         SearchRequest searchRequest = new SearchRequest("logapp");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.size(11000);
+        searchSourceBuilder.size(4000);
         searchSourceBuilder.query(QueryBuilders.matchQuery(queryTag, queryMatch));
         searchRequest.source(searchSourceBuilder);
 
@@ -47,6 +49,18 @@ public class LogService {
             });
         }
         return logs;
+    }
+
+    public Long count(String queryTag, String queryMatch) throws IOException {
+        CountRequest countRequest = new CountRequest("logapp");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.size(4000);
+        searchSourceBuilder.query(QueryBuilders.matchQuery(queryTag, queryMatch));
+        countRequest.source(searchSourceBuilder);
+
+        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
+
+        return countResponse.getCount();
     }
 
 }

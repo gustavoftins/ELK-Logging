@@ -32,4 +32,9 @@ public class LogRest {
         return this.logService.getLog(tag, match).size();
     }
 
+    @GetMapping("/count/{tag}/{match}")
+    public Long count(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
+        return this.logService.count(tag, match);
+    }
+
 }
