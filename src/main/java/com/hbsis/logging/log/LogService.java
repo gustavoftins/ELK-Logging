@@ -41,7 +41,11 @@ public class LogService {
         List<Log> logs = new ArrayList<>();
 
         if (hits.length > 0) {
-            Arrays.stream(hits).forEach(hit -> logs.add(objectMapper.convertValue(hit.getSourceAsMap(), Log.class)));
+            System.out.println(hits.length);
+            Arrays.stream(hits).forEach(hit -> {
+                System.out.println(hit.getSourceAsString());
+                logs.add(objectMapper.convertValue(hit.getSourceAsString(), Log.class));
+            });
         }
         return logs;
     }
