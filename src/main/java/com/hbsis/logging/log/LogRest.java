@@ -27,7 +27,7 @@ public class LogRest {
         return "Retorno";
     }
 
-    @GetMapping("/teste/{tag}{match}")
+    @GetMapping("/teste/{tag}/{match}")
     public int teste(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
         return this.logService.getLog(tag, match).size();
     }
