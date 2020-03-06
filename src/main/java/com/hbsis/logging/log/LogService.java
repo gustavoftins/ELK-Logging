@@ -44,7 +44,6 @@ public class LogService {
             System.out.println(hits.length);
             Arrays.stream(hits).forEach(hit -> {
                 System.out.println(hit.getSourceAsString());
-                logs.add(objectMapper.convertValue(hit.getSourceAsString(), Log.class));
             });
         }
         return logs;
