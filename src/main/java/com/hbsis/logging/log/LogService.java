@@ -8,7 +8,6 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,30 +26,24 @@ public class LogService {
         this.client = client;
     }
 
-    public List<Log> getLog() throws IOException, IllegalAccessException {
+    public List<Log> getLog() throws IOException {
         SearchRequest searchRequest = new SearchRequest();
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
         searchRequest.source(searchSourceBuilder);
 
-        return  getResult(client.search(searchRequest, RequestOptions.DEFAULT));
+        return getResult(client.search(searchRequest, RequestOptions.DEFAULT));
     }
 
-    private List<Log> getResult(SearchResponse searchResponse) throws IllegalAccessException {
-        try {
-            SearchHit[] hits = searchResponse.getHits().getHits();
+    private List<Log> getResult(SearchResponse searchResponse) {
+        SearchHit[] hits = searchResponse.getHits().getHits();
 
-            List<Log> logs = new ArrayList<>();
+        List<Log> logs = new ArrayList<>();
 
-           if(hits.length > 0){
-               Arrays.stream(hits).forEach(hit -> logs.add(objectMapper.convertValue(hit.getSourceAsMap(), Log.class)));
-           }
-            return logs;
-        } catch (Exception e) {
-
+        if (hits.length > 0) {
+            Arrays.stream(hits).forEach(hit -> logs.add(objectMapper.convertValue(hit.getSourceAsMap(), Log.class)));
         }
-
-        throw new IllegalAccessException("erro");
+        return logs;
     }
 
 }
