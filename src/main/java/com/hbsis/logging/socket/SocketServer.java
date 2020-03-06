@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.EmptyStackException;
+import java.util.List;
 
 @Service
 public abstract class SocketServer {
@@ -19,12 +20,17 @@ public abstract class SocketServer {
 
     public static void streamFile() throws IOException, InterruptedException {
         int ioExceptionErrorCount = 0;
-        Socket sock = new Socket("127.0.0.1", SOCKET_PORT);
         LOGGER.info("Iniciando socket.");
         while (true) {
+            Socket sock = new Socket("127.0.0.1", SOCKET_PORT);
             try {
                 OutputStream os = sock.getOutputStream();
-                byte[] logBytes = LogStack.stack.pop().getBytes();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < 10; i++) {
+                    sb.append(LogStack.stack.pop()+"\n");
+                }
+
+                byte[] logBytes = sb.toString().getBytes();
                 os.write(logBytes, 0, logBytes.length);
                 os.flush();
             } catch (EmptyStackException e) {
@@ -36,6 +42,7 @@ public abstract class SocketServer {
                 ioExceptionErrorCount++;
                 continue;
             }
+            sock.close();
         }
     }
 }
