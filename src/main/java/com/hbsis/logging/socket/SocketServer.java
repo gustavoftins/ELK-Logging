@@ -17,10 +17,11 @@ public abstract class SocketServer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SocketServer.class);
 
-    public static void streamFile() throws IOException, InterruptedException {
+    public static void streamFile() {
         int ioExceptionErrorCount = 0;
 
         try (Socket sock = new Socket("127.0.0.1", SOCKET_PORT)) {
+            LOGGER.info("Iniciando socket.");
             while (true) {
                 try (OutputStream os = sock.getOutputStream()) {
                     byte[] logBytes = LogStack.stack.pop().getBytes();
@@ -35,6 +36,8 @@ public abstract class SocketServer {
                     continue;
                 }
             }
+        }catch (Exception e){
+            LOGGER.error("Erro de socket {}", e);
         }
     }
 }
