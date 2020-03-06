@@ -20,7 +20,7 @@ public abstract class SocketServer {
     public static void streamFile() throws IOException, InterruptedException {
         int ioExceptionErrorCount = 0;
 
-        try (Socket sock = new Socket("127.0.0.1", SOCKET_PORT)) {
+        try (Socket sock = new Socket("localhost", SOCKET_PORT)) {
             LOGGER.info("Inicinaod socket.");
             while (true) {
                 try (OutputStream os = sock.getOutputStream()) {
