@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.EmptyStackException;
-import java.util.List;
 
 @Service
 public abstract class SocketServer {
@@ -29,6 +28,8 @@ public abstract class SocketServer {
                 for (int i = 0; i < 10; i++) {
                     sb.append(LogStack.stack.pop()+"\n");
                 }
+
+                LOGGER.info(sb.toString());
 
                 byte[] logBytes = sb.toString().getBytes();
                 os.write(logBytes, 0, logBytes.length);
