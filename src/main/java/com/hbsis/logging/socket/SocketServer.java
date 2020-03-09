@@ -45,7 +45,6 @@ public abstract class SocketServer {
                 ioExceptionErrorCount++;
                 continue;
             }
-            sock.close();
         }
     }
 }
