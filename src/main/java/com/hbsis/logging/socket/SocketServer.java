@@ -25,14 +25,9 @@ public abstract class SocketServer {
                 OutputStream os = sock.getOutputStream();
                 StringBuilder sb = new StringBuilder();
 
-                int contadorStack = 0;
-
                 for (int i = 0; i < 10; i++) {
                     sb.append(LogStack.stack.pop());
-                }
-
-                for (int i = 0; i < 10; i++) {
-                    sb.append(LogStack.stack.pop());
+                    System.out.println(sb.toString());
                 }
 
                 LOGGER.info(sb.toString());
