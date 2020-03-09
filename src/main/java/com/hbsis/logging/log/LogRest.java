@@ -1,5 +1,6 @@
 package com.hbsis.logging.log;
 
+import com.hbsis.logging.socket.SocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,11 @@ public class LogRest {
     @GetMapping("/countLogs/{tag}/{match}")
     public Long count(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
         return this.logService.count(tag, match);
+    }
+
+    @GetMapping("/startStreaming")
+    public void start() throws IOException, InterruptedException {
+        SocketServer.streamFile();
     }
 
 }
