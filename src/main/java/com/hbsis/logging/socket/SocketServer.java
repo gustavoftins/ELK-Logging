@@ -25,7 +25,7 @@ public abstract class SocketServer {
                 OutputStream os = sock.getOutputStream();
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < 10; i++) {
-                    sb.append("teste");
+                    sb.append(LogStack.stack.pop());
                 }
 
                 LOGGER.info(sb.toString());
