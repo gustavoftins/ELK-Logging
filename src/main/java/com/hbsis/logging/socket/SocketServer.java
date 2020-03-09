@@ -20,19 +20,15 @@ public abstract class SocketServer {
     public static void streamFile() throws IOException, InterruptedException {
         int ioExceptionErrorCount = 0;
         LOGGER.info("Iniciando socket.");
-        while (!LogStack.stack.isEmpty()) {
-            try(Socket sock = new Socket("127.0.0.1", SOCKET_PORT)) {
+        while (LogStack.stack.size() > 10) {
+            try (Socket sock = new Socket("127.0.0.1", SOCKET_PORT)) {
                 OutputStream os = sock.getOutputStream();
                 StringBuilder sb = new StringBuilder();
 
                 int contadorStack = 0;
 
-                while(contadorStack < 10){
-                    try{
-                       sb.append(LogStack.stack.pop());
-                    } catch (EmptyStackException empty) {
-                        continue;
-                    }
+                for (int i = 0; i < 10; i++) {
+                    sb.append(LogStack.stack.pop());
                 }
 
                 for (int i = 0; i < 10; i++) {
