@@ -22,16 +22,14 @@ public class LogRest {
         this.logService = logService;
     }
 
-    @GetMapping("/log")
-    public String log(HttpServletRequest r){
+    @GetMapping("/makeLog")
+    public void makeLog(HttpServletRequest r) {
         LOGGER.info(r.getRequestURI());
-        return "Retorno";
     }
 
     @GetMapping("/getLogs/{tag}/{match}")
-    public int teste(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
+    public void getLog(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
         this.logService.getLog(tag, match);
-        return LogStack.stack.size();
     }
 
     @GetMapping("/countLogs/{tag}/{match}")
@@ -40,7 +38,7 @@ public class LogRest {
     }
 
     @GetMapping("/startStreaming")
-    public void start() throws IOException, InterruptedException {
+    public void start() {
         SocketServer.streamFile();
     }
 
