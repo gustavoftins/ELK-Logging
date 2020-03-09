@@ -20,13 +20,15 @@ public abstract class SocketServer {
     public static void streamFile() throws IOException, InterruptedException {
         int ioExceptionErrorCount = 0;
         LOGGER.info("Iniciando socket.");
-        while (true) {
+        int j = 0;
+        while (j < 3) {
             Socket sock = new Socket("127.0.0.1", SOCKET_PORT);
+            j++;
             try {
                 OutputStream os = sock.getOutputStream();
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < 10; i++) {
-                    sb.append(LogStack.stack.pop()+"\n");
+                    sb.append(LogStack.stack.pop());
                 }
 
                 LOGGER.info(sb.toString());
