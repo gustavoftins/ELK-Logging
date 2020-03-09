@@ -10,16 +10,16 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 @Service
-public abstract class SocketServer {
+public class SocketServer {
 
     @Value("${receiver.host:127.0.0.1}")
-    public static final String SOCKET_HOST = "";
+    public String SOCKET_HOST;
     @Value("${receveir.port:5501}")
-    public static final int SOCKET_PORT = 0;
+    public int SOCKET_PORT;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SocketServer.class);
 
-    public static void streamFile() {
+    public void streamFile() {
         while (LogStack.stack.size() > 10) {
             try (Socket sock = new Socket(SOCKET_HOST, SOCKET_PORT); OutputStream os = sock.getOutputStream()) {
                 StringBuilder sb = new StringBuilder();

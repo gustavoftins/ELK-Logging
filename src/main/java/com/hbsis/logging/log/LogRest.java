@@ -18,8 +18,11 @@ public class LogRest {
 
     private final LogService logService;
 
-    public LogRest(LogService logService) {
+    private final SocketServer socketServer;
+
+    public LogRest(LogService logService, SocketServer socketServer) {
         this.logService = logService;
+        this.socketServer = socketServer;
     }
 
     @GetMapping("/makeLog")
@@ -39,7 +42,7 @@ public class LogRest {
 
     @GetMapping("/startStreaming")
     public void start() {
-        SocketServer.streamFile();
+        socketServer.streamFile();
     }
 
 }
