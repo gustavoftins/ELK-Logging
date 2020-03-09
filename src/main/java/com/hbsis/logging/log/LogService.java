@@ -32,8 +32,8 @@ public class LogService {
         this.client = client;
     }
 
-    public void getLog(String queryTag, String queryMatch, String[] indices) throws IOException {
-        SearchRequest searchRequest = new SearchRequest(indices);
+    public void getLog(String queryTag, String queryMatch) throws IOException {
+        SearchRequest searchRequest = new SearchRequest("logapp");
         searchRequest.scroll(scroll);//setting timeout for 100 seconds
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(QueryBuilders.matchQuery(queryTag, queryMatch));//matches results using the specified tag and value
@@ -68,8 +68,8 @@ public class LogService {
         }
     }
 
-    public Long count(String queryTag, String queryMatch, String[] indices) throws IOException {
-        CountRequest countRequest = new CountRequest(indices);
+    public Long count(String queryTag, String queryMatch) throws IOException {
+        CountRequest countRequest = new CountRequest("logapp");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.size(4000);
         searchSourceBuilder.query(QueryBuilders.matchQuery(queryTag, queryMatch));

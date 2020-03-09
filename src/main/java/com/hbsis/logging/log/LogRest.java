@@ -27,15 +27,15 @@ public class LogRest {
         return "Retorno";
     }
 
-    @GetMapping("/getLogs/{tag}/{match}/{indices}")
-    public int teste(@PathVariable("tag") String tag, @PathVariable("match") String match, @PathVariable("indices") String[] indices) throws IOException {
-        this.logService.getLog(tag, match, indices);
+    @GetMapping("/getLogs/{tag}/{match}")
+    public int teste(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
+        this.logService.getLog(tag, match);
         return LogStack.stack.size();
     }
 
-    @GetMapping("/countLogs/{tag}/{match}/{indices}")
-    public Long count(@PathVariable("tag") String tag, @PathVariable("match") String match, @PathVariable("indices") String[] indices) throws IOException {
-        return this.logService.count(tag, match, indices);
+    @GetMapping("/countLogs/{tag}/{match}")
+    public Long count(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
+        return this.logService.count(tag, match);
     }
 
 }
