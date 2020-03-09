@@ -21,12 +21,11 @@ public abstract class SocketServer {
         int ioExceptionErrorCount = 0;
         LOGGER.info("Iniciando socket.");
         while (true) {
-            Socket sock = new Socket("127.0.0.1", SOCKET_PORT);
-            try {
+            try(Socket sock = new Socket("127.0.0.1", SOCKET_PORT)) {
                 OutputStream os = sock.getOutputStream();
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < 10; i++) {
-                    sb.append(LogStack.stack.pop());
+                    sb.append("teste");
                 }
 
                 LOGGER.info(sb.toString());
