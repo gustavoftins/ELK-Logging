@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
@@ -25,19 +24,9 @@ public class LogRest {
         this.socketServer = socketServer;
     }
 
-    @GetMapping("/makeLog")
-    public void makeLog(HttpServletRequest r) {
-        LOGGER.info(r.getRequestURI());
-    }
-
-    @GetMapping("/getLogs/{tag}/{match}")
-    public void getLog(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
-        this.logService.getLog(tag, match);
-    }
-
-    @GetMapping("/countLogs/{tag}/{match}")
-    public Long count(@PathVariable("tag") String tag, @PathVariable("match") String match) throws IOException {
-        return this.logService.count(tag, match);
+    @GetMapping("/getLogs")
+    public void getLog() throws IOException, InterruptedException {
+        this.logService.getLog();
     }
 
     @GetMapping("/startStreaming")
@@ -45,4 +34,8 @@ public class LogRest {
         socketServer.streamFile();
     }
 
+    @GetMapping("/getLogs/{scrollId}")
+    public void getLog(@PathVariable("scrollId") String scrollId){
+        this.logService.getLogFromScrollId(scrollId);
+    }
 }
