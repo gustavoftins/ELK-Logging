@@ -25,7 +25,7 @@ public class LogRest {
     }
 
     @GetMapping("/getLogs")
-    public void getLog() throws IOException, InterruptedException {
+    public void getLog(){
         this.logService.getLog();
     }
 

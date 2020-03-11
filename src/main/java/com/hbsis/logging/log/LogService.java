@@ -22,10 +22,10 @@ import java.util.concurrent.Executors;
 @Service
 public class LogService {
 
-    private static String scrollId;
+    private static String staticScrollId;
     private final Logger LOGGER = LoggerFactory.getLogger(LogService.class);
     private final RestHighLevelClient client;
-    private final Scroll scroll = new Scroll(TimeValue.timeValueSeconds(100l));
+    private final Scroll scroll = new Scroll(TimeValue.timeValueMinutes(10l));
 
     public LogService(RestHighLevelClient client) {
         this.client = client;
@@ -54,15 +54,15 @@ public class LogService {
 
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
-        scrollId = searchResponse.getScrollId();
+        staticScrollId = searchResponse.getScrollId();
         SearchHit[] hits = searchResponse.getHits().getHits();
         getResult(hits);
 
         do {
-            SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
+            SearchScrollRequest scrollRequest = new SearchScrollRequest(staticScrollId);
             scrollRequest.scroll(scroll);
             searchResponse = client.scroll(scrollRequest, RequestOptions.DEFAULT);
-            scrollId = searchResponse.getScrollId();
+            staticScrollId = searchResponse.getScrollId();
             hits = searchResponse.getHits().getHits();
             getResult(hits);
 
@@ -75,7 +75,7 @@ public class LogService {
             continue;
         }
 
-        LOGGER.info("Recebendo dados do banco. ScrollId: {}", scrollId);
+        LOGGER.info("Recebendo dados do banco. ScrollId: {}", staticScrollId);
 
         if (hits.length > 0) {
             Arrays.stream(hits).forEach(hit -> {
@@ -99,11 +99,12 @@ public class LogService {
 
     private void searchFromScrollId(String scrollId) throws IOException, InterruptedException {
         SearchHit[] hits = null;
+        staticScrollId = scrollId;
         do {
-            SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
+            SearchScrollRequest scrollRequest = new SearchScrollRequest(staticScrollId);
             scrollRequest.scroll(scroll);
             SearchResponse searchResponse = client.scroll(scrollRequest, RequestOptions.DEFAULT);
-            scrollId = searchResponse.getScrollId();
+            staticScrollId = searchResponse.getScrollId();
             hits = searchResponse.getHits().getHits();
             getResult(hits);
 
